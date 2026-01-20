@@ -210,6 +210,17 @@ const Courses = () => {
               <div key={idx} className="part-card" style={{ borderLeftColor: item.color }}>
                 <h4 className="part-card-title">{item.name}</h4>
                 <p className="part-card-value">{item.value}</p>
+                <div className="class-resources">
+                  <button className="resource-btn download-btn" style={{ background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}cc 100%)` }}>
+                    📥 Download Tutorial
+                  </button>
+                  <button className="resource-btn recordings-btn" style={{ background: `linear-gradient(135deg, ${item.color}dd 0%, ${item.color}aa 100%)` }}>
+                    🎥 Recordings
+                  </button>
+                  <button className="resource-btn join-btn" style={{ background: `linear-gradient(135deg, ${item.color}bb 0%, ${item.color}88 100%)` }}>
+                    🔗 Join Link
+                  </button>
+                </div>
               </div>
             ))}
           </div>
