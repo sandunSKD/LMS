@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Courses from './components/Courses/Courses';
 import Assignments from './components/Assignments/Assignments';
 import Profile from './components/Profile/Profile';
+import Progress from './components/Progress/Progress';
 
 // Main LMS Application Component
 const LMSApp = () => {
@@ -34,6 +35,8 @@ const LMSApp = () => {
         return <Courses />;
       case 'assignments':
         return <Assignments />;
+      case 'progress':
+        return <Progress />;
       case 'grades':
         return <div className="page-placeholder">📈 Grades page coming soon!</div>;
       case 'calendar':
