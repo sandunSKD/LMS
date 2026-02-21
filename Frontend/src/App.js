@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import Courses from './components/Courses/Courses';
 import Assignments from './components/Assignments/Assignments';
+import Calendar from './components/Calendar/Calendar';
 import Profile from './components/Profile/Profile';
 
 // Main LMS Application Component
@@ -37,7 +38,7 @@ const LMSApp = () => {
       case 'grades':
         return <div className="page-placeholder">📈 Grades page coming soon!</div>;
       case 'calendar':
-        return <div className="page-placeholder">📅 Calendar page coming soon!</div>;
+        return <Calendar />;
       case 'profile':
         return <Profile />;
       default:

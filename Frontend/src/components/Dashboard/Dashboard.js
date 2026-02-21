@@ -1,14 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [calendarEvents, setCalendarEvents] = useState([]);
+
   const [announcements, setAnnouncements] = useState([
     { id: 1, title: 'New Course Available: Advanced React Patterns', date: '2024-01-12', type: 'info' },
     { id: 2, title: 'System Maintenance Scheduled', date: '2024-01-14', type: 'warning' },
     { id: 3, title: 'Congratulations on completing JavaScript Basics!', date: '2024-01-10', type: 'success' }
   ]);
+
+  // Load calendar events from localStorage
+  useEffect(() => {
+    const loadEvents = () => {
+      try {
+        const savedEvents = localStorage.getItem('lms_calendar_events');
+        if (savedEvents) {
+          setCalendarEvents(JSON.parse(savedEvents));
+        }
+      } catch (error) {
+        console.error('Error loading calendar events:', error);
+      }
+    };
+
+    loadEvents();
+
+    // Listen for changes from other tabs
+    const handleStorageChange = (e) => {
+      if (e.key === 'lms_calendar_events' && e.newValue) {
+        try {
+          setCalendarEvents(JSON.parse(e.newValue));
+        } catch (error) {
+          console.error('Error parsing updated events:', error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const stats = [
     { title: 'Enrolled Courses', value: '6', icon: '', color: '#3498db', gradient: 'linear-gradient(135deg, #3498db 0%, #2980b9 100%)' },
@@ -31,14 +64,63 @@ const Dashboard = () => {
     { week: 'Week 4', focus: 'Database Design & Optimization', status: 'upcoming' }
   ];
 
-  const calendarDays = Array.from({ length: 31 }, (_, i) => ({
-    day: i + 1,
-    hasEvent: Math.random() > 0.7
-  }));
+  // Get proper calendar days for current month
+  const getDaysInMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  };
+
+  const getCalendarDays = () => {
+    const daysInMonth = getDaysInMonth(currentDate);
+    const firstDay = getFirstDayOfMonth(currentDate);
+    const days = [];
+
+    // Empty days before month starts
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null);
+    }
+
+    // Days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(i);
+    }
+
+    return days;
+  };
+
+  // Format date to YYYY-MM-DD
+  const formatDateString = (day) => {
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const date = String(day).padStart(2, '0');
+    return `${year}-${month}-${date}`;
+  };
+
+  // Get events for a specific date
+  const getEventsForDate = (day) => {
+    if (!day) return [];
+    const dateString = formatDateString(day);
+    return calendarEvents.filter(event => event.date === dateString);
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
+  };
 
   const deleteAnnouncement = (id) => {
     setAnnouncements(announcements.filter(ann => ann.id !== id));
   };
+
+  const calendarDays = getCalendarDays();
+  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthYear = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   return (
     <div className="dashboard">
@@ -89,21 +171,72 @@ const Dashboard = () => {
 
         {/* Calendar */}
         <div className="dashboard-section calendar-section">
-          <div className="section-header">
-            <h2>📅 Calendar</h2>
-            <span className="month-year">January 2024</span>
-          </div>
-          <div className="calendar">
-            <div className="calendar-header">
-              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          <div className="calendar-header-section">
+            <div>
+              <h2>📅 Calendar</h2>
             </div>
-            <div className="calendar-grid">
-              {calendarDays.map(day => (
-                <div key={day.day} className={`calendar-day ${day.hasEvent ? 'has-event' : ''}`}>
-                  {day.day}
-                  {day.hasEvent && <div className="event-indicator"></div>}
+            <div className="calendar-nav-buttons">
+              <button 
+                className="calendar-nav-btn"
+                onClick={handlePrevMonth}
+                title="Previous month"
+              >
+                ← Prev
+              </button>
+              <span className="month-year">{monthYear}</span>
+              <button 
+                className="calendar-nav-btn"
+                onClick={handleNextMonth}
+                title="Next month"
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+          
+          <div className="calendar">
+            <div className="calendar-weekdays">
+              {weekDays.map(day => (
+                <div key={day} className="calendar-weekday-header">
+                  {day}
                 </div>
               ))}
+            </div>
+            
+            <div className="calendar-days">
+              {calendarDays.map((day, index) => {
+                const dayEvents = getEventsForDate(day);
+                const isToday = day &&
+                  new Date().getFullYear() === currentDate.getFullYear() &&
+                  new Date().getMonth() === currentDate.getMonth() &&
+                  new Date().getDate() === day;
+
+                return (
+                  <div
+                    key={index}
+                    className={`calendar-day ${day ? '' : 'empty'} ${isToday ? 'today' : ''} ${dayEvents.length > 0 ? 'has-events' : ''}`}
+                  >
+                    {day && (
+                      <>
+                        <div className="day-number">{day}</div>
+                        <div className="day-event-indicators">
+                          {dayEvents.slice(0, 2).map((event, idx) => (
+                            <div
+                              key={idx}
+                              className="event-dot"
+                              style={{ backgroundColor: event.color }}
+                              title={event.title}
+                            ></div>
+                          ))}
+                          {dayEvents.length > 2 && (
+                            <div className="event-more-dots">+{dayEvents.length - 2}</div>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
