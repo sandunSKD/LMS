@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 
-const Login = () => {
+const Login = ({ onNavigateToSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -108,7 +108,7 @@ const Login = () => {
         </div>
 
         <div className="login-footer">
-          <p>Don't have an account? <a href="#signup">Sign up here</a></p>
+          <p>Don't have an account? <span style={{ color: '#667eea', fontWeight: '500', cursor: 'pointer' }} onClick={onNavigateToSignup}>Sign up here</span></p>
         </div>
       </div>
     </div>

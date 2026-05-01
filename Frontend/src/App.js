@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login/Login';
+import SignUp from './components/SignUp/SignUp';
 import Navbar from './components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import Courses from './components/Courses/Courses';
@@ -12,6 +13,7 @@ import Profile from './components/Profile/Profile';
 const LMSApp = () => {
   const { user, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('dashboard');
+  const [authPage, setAuthPage] = useState('login');
 
   if (loading) {
     return (
@@ -23,7 +25,10 @@ const LMSApp = () => {
   }
 
   if (!user) {
-    return <Login />;
+    if (authPage === 'signup') {
+      return <SignUp onNavigateToLogin={() => setAuthPage('login')} />;
+    }
+    return <Login onNavigateToSignup={() => setAuthPage('signup')} />;
   }
 
   const renderCurrentPage = () => {
@@ -66,4 +71,3 @@ function App() {
 }
 
 export default App;
-
