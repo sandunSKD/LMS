@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+const authRoutes = require('./routes/auth');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -41,6 +43,8 @@ const checkTeacherSession = (req, res, next) => {
 };
 
 // Routes
+app.use('/api/auth', authRoutes);
+
 app.get('/api/classes', async (req, res) => {
     try {
         const classes = await Class.find();

@@ -14,19 +14,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Initialize users if not present
-  useEffect(() => {
-    const savedUsers = localStorage.getItem('lms_users');
-    if (!savedUsers) {
-      const demoUsers = [
-        { id: 1, email: 'student@lms.com', password: 'student123', role: 'student', name: 'John Doe' },
-        { id: 2, email: 'teacher@lms.com', password: 'teacher123', role: 'teacher', name: 'Jane Smith' },
-        { id: 3, email: 'admin@lms.com', password: 'admin123', role: 'admin', name: 'Admin User' }
-      ];
-      localStorage.setItem('lms_users', JSON.stringify(demoUsers));
-    }
-  }, []);
-
   // Check for existing user session on app load
   useEffect(() => {
     const savedUser = localStorage.getItem('lms_user');
@@ -37,45 +24,49 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
-        const foundUser = users.find(u => u.email === email && u.password === password);
-        
-        if (foundUser) {
-          const { password, ...userWithoutPassword } = foundUser;
-          setUser(userWithoutPassword);
-          localStorage.setItem('lms_user', JSON.stringify(userWithoutPassword));
-          resolve(userWithoutPassword);
-        } else {
-          reject(new Error('Invalid email or password'));
-        }
-      }, 1000);
-    });
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      setUser(data.user);
+      localStorage.setItem('lms_user', JSON.stringify(data.user));
+      return data.user;
+    } catch (err) {
+      throw err;
+    }
   };
 
   const signup = async (name, email, password, role) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
-        if (users.find(u => u.email === email)) {
-          reject(new Error('Email already exists'));
-          return;
-        }
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password, role: role.toLowerCase() })
+      });
 
-        const newUser = {
-          id: Date.now(),
-          name,
-          email,
-          password,
-          role: role.toLowerCase()
-        };
+      const data = await response.json();
 
-        users.push(newUser);
-        localStorage.setItem('lms_users', JSON.stringify(users));
-        resolve(true);
-      }, 1000);
-    });
+      if (!response.ok) {
+        throw new Error(data.message || 'Signup failed');
+      }
+
+      return true;
+    } catch (err) {
+      throw err;
+    }
   };
 
   const logout = () => {
