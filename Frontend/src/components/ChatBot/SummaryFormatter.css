@@ -1,0 +1,91 @@
+/* Summary Formatter Styles */
+.summary-formatter {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-formatter-fallback {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Section Styling */
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-section-title {
+  margin: 0;
+  color: #4a5568;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.summary-section-title::before {
+  content: '📌';
+  font-size: 12px;
+}
+
+/* Items List */
+.summary-items-list {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-item {
+  margin: 0;
+  padding: 4px 0;
+  color: #2d3748;
+  font-size: 13px;
+  line-height: 1.5;
+  list-style-type: disc;
+}
+
+.summary-item::marker {
+  color: #667eea;
+  font-weight: bold;
+}
+
+/* Dark theme support for bot messages */
+.bot-message .message-content .summary-formatter {
+  color: #333;
+}
+
+.bot-message .message-content .summary-section-title {
+  color: #667eea;
+}
+
+.bot-message .message-content .summary-item {
+  color: #2d3748;
+}
+
+/* Ensure proper spacing in chat context */
+.message-content .summary-formatter {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .summary-items-list {
+    padding-left: 12px;
+    gap: 4px;
+  }
+
+  .summary-item {
+    font-size: 12px;
+  }
+
+  .summary-section-title {
+    font-size: 13px;
+  }
+}

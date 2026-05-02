@@ -1,0 +1,79 @@
+const fs = require('fs');
+
+// Minimal valid PDF content with text
+const pdfContent = `%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 800 >>
+stream
+BT
+/F1 20 Tf
+100 700 Td
+(React Hooks & State Management) Tj
+0 -40 Td
+/F1 12 Tf
+(Study Notes) Tj
+0 -30 Td
+/F1 11 Tf
+(1. Introduction to React Hooks) Tj
+0 -20 Td
+/F1 10 Tf
+(React Hooks are functions that let you use state and other React features) Tj
+0 -15 Td
+(in functional components. They were introduced in React 16.8.) Tj
+0 -30 Td
+/F1 11 Tf
+(2. Key Hooks Overview) Tj
+0 -20 Td
+/F1 10 Tf
+(useState: Manages state in functional components) Tj
+0 -15 Td
+(useEffect: Handles side effects like API calls) Tj
+0 -15 Td
+(useContext: Accesses context values) Tj
+0 -15 Td
+(useReducer: Complex state management) Tj
+0 -15 Td
+(useCallback: Memoizes functions) Tj
+0 -15 Td
+(useMemo: Memoizes values) Tj
+0 -30 Td
+/F1 11 Tf
+(3. useState Hook) Tj
+0 -20 Td
+/F1 10 Tf
+(const [count, setCount] = useState(0);) Tj
+0 -15 Td
+(This hook takes an initial value and returns an array) Tj
+0 -15 Td
+(with the state and a function to update it.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000229 00000 n 
+0000001078 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1157
+%%EOF`;
+
+fs.writeFileSync('test_sample.pdf', pdfContent);
+console.log('Test PDF created: test_sample.pdf');

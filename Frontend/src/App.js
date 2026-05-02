@@ -8,6 +8,7 @@ import Courses from './components/Courses/Courses';
 import Assignments from './components/Assignments/Assignments';
 import Calendar from './components/Calendar/Calendar';
 import Profile from './components/Profile/Profile';
+import ChatBot from './components/ChatBot/ChatBot';
 
 // Main LMS Application Component
 const LMSApp = () => {
@@ -52,6 +53,7 @@ const LMSApp = () => {
       <main className="lms-content">
         {renderCurrentPage()}
       </main>
+      <ChatBot />
     </div>
   );
 };

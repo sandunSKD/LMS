@@ -51,3 +51,19 @@ export const deleteClass = async (id, userRole) => {
     }
     return response.json();
 };
+
+// ChatBot - Note Summarization API
+export const summarizeNotes = async (notes) => {
+    const response = await fetch(`${API_URL}/summarize-notes`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ notes })
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to summarize notes');
+    }
+    return response.json();
+};
