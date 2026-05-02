@@ -52,7 +52,7 @@
 }
 
 .summary-item::marker {
-  color: #667eea;
+  color: #1e40af;
   font-weight: bold;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .bot-message .message-content .summary-section-title {
-  color: #667eea;
+  color: #1e40af;
 }
 
 .bot-message .message-content .summary-item {
