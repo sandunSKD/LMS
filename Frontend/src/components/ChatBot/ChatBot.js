@@ -305,13 +305,22 @@ const ChatBot = () => {
               rows="3"
               className="chatbot-textarea"
             />
-            <button
-              onClick={handleSendMessage}
-              disabled={isLoading || (!userInput.trim() && !uploadedFile)}
-              className="send-button"
-            >
-              {isLoading ? 'Processing...' : uploadedFile ? 'Get Summary' : 'Send'}
-            </button>
+            <div className="chatbot-button-group">
+              <button
+                onClick={handleSendMessage}
+                disabled={isLoading || (!userInput.trim() && !uploadedFile)}
+                className="send-button"
+              >
+                {isLoading ? 'Processing...' : uploadedFile ? 'Get Summary' : 'Send'}
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="close-bottom-button"
+                title="Close chat"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

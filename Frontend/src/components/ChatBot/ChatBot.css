@@ -298,7 +298,7 @@
 }
 
 .send-button {
-  width: 100%;
+  flex: 1;
   padding: 10px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -321,6 +321,34 @@
 .send-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Button Group */
+.chatbot-button-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.close-bottom-button {
+  padding: 10px 16px;
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.close-bottom-button:hover {
+  background: #d0d0d0;
+}
+
+.close-bottom-button:active {
+  transform: scale(0.98);
 }
 
 /* Responsive Design */
