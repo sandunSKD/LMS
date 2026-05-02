@@ -137,15 +137,6 @@ const ChatBot = () => {
       };
 
       setMessages((prev) => [...prev, fileMessage]);
-      
-      // Auto-send for summarization
-      const successMessage = {
-        id: messages.length + 2,
-        text: 'File loaded! Click Send to get a summary.',
-        sender: 'bot',
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, successMessage]);
     } catch (error) {
       console.error('Error handling file:', error);
       const errorMessage = {
@@ -215,7 +206,7 @@ const ChatBot = () => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && userInput.trim()) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -309,7 +300,7 @@ const ChatBot = () => {
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder={uploadedFile ? "Or paste additional notes..." : "Paste your notes or ask a question..."}
+              placeholder={uploadedFile ? "Press 'Get Summary' to summarize the file..." : "Paste your notes or ask a question..."}
               disabled={isLoading}
               rows="3"
               className="chatbot-textarea"
@@ -319,7 +310,7 @@ const ChatBot = () => {
               disabled={isLoading || (!userInput.trim() && !uploadedFile)}
               className="send-button"
             >
-              {isLoading ? 'Processing...' : 'Send'}
+              {isLoading ? 'Processing...' : uploadedFile ? 'Get Summary' : 'Send'}
             </button>
           </div>
         </div>
