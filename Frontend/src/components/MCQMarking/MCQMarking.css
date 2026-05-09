@@ -1,0 +1,170 @@
+.mcq-marking-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mcq-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.mcq-header h1 {
+  font-size: 2.5rem;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.mcq-header p {
+  color: #718096;
+  font-size: 1.1rem;
+}
+
+.mcq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.mcq-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  border-left: 6px solid #667eea;
+}
+
+.mcq-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.mcq-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.mcq-card-header h3 {
+  font-size: 1.25rem;
+  color: #2d3748;
+  margin: 0;
+}
+
+.class-type {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.type-theory { background: #ebf4ff; color: #3182ce; }
+.type-revision { background: #fff5f5; color: #e53e3e; }
+.type-paper { background: #e6fffa; color: #319795; }
+
+.mcq-card-body {
+  flex-grow: 1;
+}
+
+.mcq-instructor {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.mcq-action-section {
+  margin-top: 1.5rem;
+  border-top: 1px solid #edf2f7;
+  padding-top: 1rem;
+}
+
+.mcq-link-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s;
+}
+
+.mcq-link-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn-save-link {
+  width: 100%;
+  padding: 0.75rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-save-link:hover {
+  background: #5a67d8;
+}
+
+.btn-view-paper {
+  width: 100%;
+  padding: 1rem;
+  background: #4fd1c5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-view-paper:hover {
+  background: #38b2ac;
+  transform: scale(1.02);
+}
+
+.no-link-message {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 8px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+@media (max-width: 640px) {
+  .mcq-marking-container {
+    padding: 1rem;
+  }
+  
+  .mcq-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .mcq-grid {
+    grid-template-columns: 1fr;
+  }
+}

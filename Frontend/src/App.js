@@ -1,0 +1,77 @@
+import React, { useState } from 'react';
+import './App.css';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Login from './components/Login/Login';
+import SignUp from './components/SignUp/SignUp';
+import Navbar from './components/Navbar/Navbar';
+import Dashboard from './components/Dashboard/Dashboard';
+import Courses from './components/Courses/Courses';
+import Assignments from './components/Assignments/Assignments';
+import Calendar from './components/Calendar/Calendar';
+import Profile from './components/Profile/Profile';
+import MCQMarking from './components/MCQMarking/MCQMarking';
+
+// Main LMS Application Component
+const LMSApp = () => {
+  const { user, loading } = useAuth();
+  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [authPage, setAuthPage] = useState('login');
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner">📚</div>
+        <p>Loading NextGen LMS...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    if (authPage === 'signup') {
+      return <SignUp onNavigateToLogin={() => setAuthPage('login')} />;
+    }
+    return <Login onNavigateToSignup={() => setAuthPage('signup')} />;
+  }
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'courses':
+        return <Courses />;
+      case 'assignments':
+        return <Assignments />;
+      case 'grades':
+        return <div className="page-placeholder">📈 Grades page coming soon!</div>;
+      case 'calendar':
+        return <Calendar />;
+      case 'profile':
+        return <Profile />;
+      case 'mcq-marking':
+        return <MCQMarking />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
+  return (
+    <div className="lms-app">
+      <Navbar currentPage={currentPage} onNavigate={setCurrentPage} />
+      <main className="lms-content">
+        {renderCurrentPage()}
+      </main>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <div className="App">
+        <LMSApp />
+      </div>
+    </AuthProvider>
+  );
+}
+
+export default App;
